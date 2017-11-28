@@ -1,18 +1,27 @@
 language: java
 os: linux
-
 before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
 jobs:
   include:
-    - stage: build
-      script:
-      - ./gradlew check
-      - ./gradlew fatJar
+  - stage: build
+    script:
+    - "./gradlew check"
+    - "./gradlew fatJar"
+  - stage: deploy
+    script: ./gradlew fatJar
+    deploy: &releases
+      provider: releases
+      api_key:
+        secure: UN05zTWMepJLVbzJKIcXfxInHRNJH6gAhtgVFCUIk0tZn67JvtLY5WElYzk5gLl067KrNq6kc/OGAfM/oCAvwjLHEQr/lc6LnzjdAaXYRk2/gkJn/1KS5beRDXkH66KiBu+3UFA4Xsmul9ifQAaUot8MqYoqrRVLum7aQTRNF8z28trXYzJVzuiAcpAmeOReveECs2lripbMBt1DZHDJ8OrqgYiiXkCvA5dZW+j0AEvbqKREMmlvped0FAib01959OSMqPcMPG3kM43ay1GuG2xTz0a03MsPaT/6SGq0oJDJMnQoJBKqiAFCvBokg1OsrRbR9ROaH64/VeDO7InaxAQY4ohRq0HK3fex4FjXfT4wj2ZVUexYSDOxEi7M0mEsAYP7X/Ut2dsaedRS/NWXP/ifax9TNZFEAXnlVsdBwQwmGzNzSxqCSpsOVRk8hXSi6Z/jM/0Ak6Zj4v/NWGJpBP0z7rseos7DDs0tXAL/FJcGNOI+y9RQ7zzi9FClQxlAmU3vAvOogei2xKij6oZr2bHMePzDadhqIvXJxoA0ZC/jW/wQjlk4F+A0xGLsj+2wvw0YaGfhG1RxtkrxTJnu7QDUQESHKER6Me0L9TSGUOj9Sn27tbvoulOptNAn1GzBWmxO0aV/fMEZFoVGU3qHdZCpBSoT/7n6CcWU07LAYow=
+      file_glob: true
+      file: "./build/libs/*"
+      skip_cleanup: true
+      on:
+        tags: true
+        repo: bennet0496/mediawiki_webcrawler
