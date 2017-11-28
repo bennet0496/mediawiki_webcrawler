@@ -1,0 +1,8 @@
+image: gradle
+release:
+  script:
+    - ./gradlew check
+    - ./gradlew fatJar
+  artifacts:
+    paths:
+      - ./build/libs/*
