@@ -1,4 +1,5 @@
 # Webcrawler (for Mediawiki)
+[![Build Status](https://travis-ci.org/bennet0496/mediawiki_webcrawler.svg?branch=master)](https://travis-ci.org/bennet0496/mediawiki_webcrawler)
 
 Export MediaWiki Pages to a Directory Tree.
 
